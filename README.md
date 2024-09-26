@@ -36,31 +36,31 @@ End the program and close the output video window by pressing 'q'.
 ## i) Write the frame as JPG file
 
 ```
-import cv2
-videoCaptureObject = cv2.VideoCapture(0)
-frame_count = 0
-while(True):
-    ret, frame = videoCaptureObject.read()
-    cv2.imwrite(f"frame_{frame_count}.jpg", frame)
-    frame_count += 1
-    
-    if frame_count >= 100:
-        break
-videoCaptureObject.release()
+import cv2 
+cap=cv2.VideoCapture (0) 
+frame_number=0 # Initialize frame number
+while frame_number < 5:
+    ret, frame= cap.read()
+    cv2.imshow('frame', frame) 
+#Save frame as JPG file
+    cv2.imwrite(f"frame_{frame_number}.jpg", frame)
+    frame_number += 1 
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+     break
+cap.release()
 cv2.destroyAllWindows()
 ```
 
 ## ii) Display the video
 ```
 
-import numpy as np
 import cv2
-cap=cv2.VideoCapture(0)
-while True:
-    ret,frame=cap.read()
-    cv2.imshow('OUTPUT',frame)
-    if cv2.waitKey(1)==ord('q'):
-        break
+cap= cv2.VideoCapture(0)
+while True: 
+    ret, frame= cap.read()
+    cv2.imshow('Video', frame) 
+    if cv2.waitKey(1) & 0xFF== ord('q'): 
+      break 
 cap.release()
 cv2.destroyAllWindows()
 ```
@@ -68,22 +68,24 @@ cv2.destroyAllWindows()
 ## iii) Display the video by resizing the window
 
 ```
-import numpy as np
 import cv2
-cap=cv2.VideoCapture(0)
-while True:
-    ret,frame=cap.read()
-    width=int(cap.get(3))
-    height=int(cap.get(4))
-    image=np.zeros(frame.shape,np.uint8)
-    smaller_frame=cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
-    image[:height//2, :width//2]=smaller_frame
-    image[height//2:, :width//2]=smaller_frame
-    image[:height//2, width//2:]=smaller_frame
-    image[height//2:, width//2:]=smaller_frame
-    cv2.imshow('ARAVIND',image)
-    if cv2.waitKey(1)==ord('q'):
+
+cap = cv2.VideoCapture(0)
+# Create a resizable window
+cv2.namedWindow('Video', cv2.WINDOW_NORMAL)
+
+while True: 
+    ret, frame = cap.read()
+    if not ret:
         break
+    cv2.imshow('Video', frame)
+    
+    # Resize the window
+    cv2.resizeWindow('Video', 100, 200)
+    
+    if cv2.waitKey(1) & 0xFF == ord('q'): 
+        break 
+
 cap.release()
 cv2.destroyAllWindows()
 ```
@@ -92,69 +94,44 @@ cv2.destroyAllWindows()
 ## iv) Rotate and display the video
 
 ```
-
-import numpy as np
 import cv2
-cap=cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
+# Define the rotation angle (in degrees)
+rotation_angle = 90
+
 while True:
-    ret,frame=cap.read()
-    width=int(cap.get(3))
-    height=int(cap.get(4))
-    image=np.zeros(frame.shape,np.uint8)
-    smaller_frame=cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
-    image[:height//2, :width//2]=cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[height//2:, :width//2]=smaller_frame
-    image[:height//2, width//2:]=cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[height//2:, width//2:]=smaller_frame
-    cv2.imshow('ARAVIND',image)
-    if cv2.waitKey(1)==ord('q'):
+    ret, frame = cap.read()
+    if not ret:
         break
+    # Rotate the frame
+    rotated_frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    
+    # Display the rotated frame
+    cv2.imshow('Rotated Video', rotated_frame)
+    
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
 cap.release()
 cv2.destroyAllWindows()
-
-
-
-
-
 ```
 ## Output
 
 ### i) Write the frame as JPG image
-![OP01](https://github.com/Aravindsamy04/Image_Acqusition-_using_Web_Camera/assets/113497037/aeef0405-c96b-45bc-86d9-b79adb06940c)
-
-
-</br>
-
-</br>
-
+![Screenshot (38)](https://github.com/user-attachments/assets/5d69e89f-7bae-41f4-9b94-2305898cabe6)
 
 ### ii) Display the video
 
-![OP01](https://github.com/Aravindsamy04/Image_Acqusition-_using_Web_Camera/assets/113497037/1d095ea7-6395-47e1-9c88-8bac251e7c16)
-
-</br>
-
-</br>
-
+![Screenshot (41)](https://github.com/user-attachments/assets/fea4f4f3-d740-419a-bd43-62e3114f9603)
 
 ### iii) Display the video by resizing the window
 
 
-![OP02](https://github.com/Aravindsamy04/Image_Acqusition-_using_Web_Camera/assets/113497037/302989fa-b2ec-46b0-b688-a087e5501c12)
-
-</br>
-
-</br>
-
-
+![Screenshot (43)](https://github.com/user-attachments/assets/5d807c5f-425f-434c-88f2-bd3306b745d2)
 
 ### iv) Rotate and display the video
 
-![OP03](https://github.com/Aravindsamy04/Image_Acqusition-_using_Web_Camera/assets/113497037/d75285e5-4bb3-41c3-a408-b7305daf7de0)
-
-</br>
-</br>
-
+![Screenshot (44)](https://github.com/user-attachments/assets/cfa24b8b-5477-4f9e-9c0a-de5082517716)
 
 ## Result:
 Thus the image is accessed from webcamera and displayed using openCV.
